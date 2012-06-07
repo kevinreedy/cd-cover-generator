@@ -1,4 +1,5 @@
 from pyfpdf import FPDF
+# NOTE: I have patched hsaudiotag to include label, bpm, and initial_key tags. I will post that when it is more tested
 from hsaudiotag import auto
 from mutagen import File
 from imghdr import what
