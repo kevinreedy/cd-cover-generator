@@ -8,23 +8,31 @@ pdf.set_right_margin(0)
 pdf.set_auto_page_break(False,margin=0)
 pdf.add_page()
 
-# dummy boxes
 pdf.set_font('Arial','B',16)
-#pdf.cell(w=30, h=30, txt='dummy', border=1, ln=0, align='C')
-#pdf.cell(w=30, h=30, txt='dummy', border=1, ln=1, align='C')
-#pdf.cell(w=30, h=30, txt='dummy', border=1, ln=0, align='C')
-#pdf.cell(w=30, h=30, txt='dummy', border=1, ln=1, align='C')
-#pdf.cell(w=30, h=30, txt='dummy', border=1, ln=0, align='C')
-#pdf.cell(w=30, h=30, txt='dummy', border=1, ln=1, align='C')
-#pdf.cell(w=30, h=30, txt='dummy', border=1, ln=0, align='C')
-#pdf.cell(w=30, h=30, txt='dummy', border=1, ln=1, align='C')
 
+# dummy boxes
 for x in range(2):
-    pdf.set_fill_color(255,255 * x,0)
     for y in range(4):
+        pdf.set_fill_color(255 * x,85 * y,0)
         pdf.set_xy(30 * x ,30 * y)
         pdf.cell(w=30, h=30, txt='dummy', border=1, align='C', fill=True)
 
+# title of cd
+pdf.set_xy(65,0)
+pdf.set_font('Arial','B',36)
+pdf.cell(w=50, h=12, txt="TH001", border=0, align='C', fill=False)
+pdf.set_xy(65,12)
+pdf.set_font('Arial','B',10)
+pdf.cell(w=50, h=5, txt="Tech House", border=1, align='C', fill=False)
+
+# tracks
+for y in range(8):
+    pdf.set_xy(62,21 + 12*y)
+    pdf.set_font('Arial','B',10)
+    pdf.cell(w=50, h=4, txt=str(y+1) + ': Awesome Song (Original Mix)', border=0, align='L', fill=False, ln='2')
+    pdf.set_font('Arial','',8)
+    pdf.cell(w=50, h=4, txt='      DJ Overzero / dirtybird', border=0, align='L', fill=False, ln='2')
+    pdf.cell(w=50, h=4, txt='      128BPM, 5B', border=0, align='L', fill=False)
 
 
 # move to right
