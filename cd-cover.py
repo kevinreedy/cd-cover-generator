@@ -25,6 +25,9 @@ for i in range(8):
     hs = auto.File(files[i])
     track['title'] = hs.title
     track['artist'] = hs.artist
+    track['label'] = hs.label
+    track['bpm'] = hs.bpm
+    track['initial_key'] = hs.initial_key
 
 
     # Generate artwork
@@ -89,10 +92,10 @@ pdf.cell(w=50, h=5, txt="Demo Cover", border=1, align='C', fill=False)
 for y in range(8):
     pdf.set_xy(62,23 + 12*y)
     pdf.set_font('Arial','B',10)
-    pdf.cell(w=50, h=4, txt=str(y+1) + ': ' + str(tracks[y]['title']), border=0, align='L', fill=False, ln='2')
+    pdf.cell(w=50, h=4, txt=str(y+1) + ': ' + tracks[y]['title'], border=0, align='L', fill=False, ln='2')
     pdf.set_font('Arial','',8)
-    pdf.cell(w=50, h=3, txt='      ' + str(tracks[y]['artist']) + ' / [LABEL]', border=0, align='L', fill=False, ln='2')
-    pdf.cell(w=50, h=3, txt='      [BPM], [KEY]', border=0, align='L', fill=False)
+    pdf.cell(w=50, h=3, txt='      ' + tracks[y]['artist'] + ' / ' + tracks[y]['label'], border=0, align='L', fill=False, ln='2')
+    pdf.cell(w=50, h=3, txt='      ' + tracks[y]['bpm'] +', ' + tracks[y]['initial_key'], border=0, align='L', fill=False)
 
 
 # Write pdf file
