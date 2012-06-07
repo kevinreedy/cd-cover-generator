@@ -91,11 +91,26 @@ pdf.cell(w=50, h=5, txt="Demo Cover", border=1, align='C', fill=False)
 # Print tracklist
 for y in range(8):
     pdf.set_xy(62,23 + 12*y)
+
+    # Line 1
     pdf.set_font('Arial','B',10)
     pdf.cell(w=50, h=4, txt=str(y+1) + ': ' + tracks[y]['title'], border=0, align='L', fill=False, ln='2')
+
+    # Line 2
+    line2 = '      '
+    line2 = line2 + tracks[y]['artist']
     pdf.set_font('Arial','',8)
-    pdf.cell(w=50, h=3, txt='      ' + tracks[y]['artist'] + ' / ' + tracks[y]['label'], border=0, align='L', fill=False, ln='2')
-    pdf.cell(w=50, h=3, txt='      ' + tracks[y]['bpm'] +', ' + tracks[y]['initial_key'], border=0, align='L', fill=False)
+    pdf.cell(w=50, h=3, txt=line2, border=0, align='L', fill=False, ln='2')
+
+    # Line 3
+    line3 = '      ' 
+    if(tracks[y]['bpm']):
+        line3 = line3 + tracks[y]['bpm'] +'BPM ' 
+    if(tracks[y]['initial_key']):
+        line3 = line3 + tracks[y]['initial_key']
+    if(tracks[y]['label']):
+        line3 = line3 + ' [' + tracks[y]['label'] + ']'
+    pdf.cell(w=50, h=3, txt=line3, border=0, align='L', fill=False)
 
 
 # Write pdf file
