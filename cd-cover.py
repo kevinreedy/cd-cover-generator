@@ -3,8 +3,10 @@ from hsaudiotag import auto
 from mutagen import File
 from imghdr import what
 
+# TODO Make functions for everything
 
-# TODO Get this from m3u or something
+
+# TODO Get this loaded from m3u or something
 files = [
     'temp-music/01.mp3',
     'temp-music/02.mp3',
@@ -31,6 +33,7 @@ for i in range(8):
 
 
     # Generate artwork
+    # TODO Get artwork for aiff files
     track['image'] = 'tmp/default.jpg'
     track['image_type'] = 'jpg'
     try:
@@ -67,8 +70,8 @@ for y in range(4):
         pdf.set_xy(30 * x ,30 * y)
         pdf.set_font('Arial','B',16)
 
-        # Set fill color to pink
-        pdf.set_fill_color(255, 0, 127)
+        # Set fill color to pink to be noticed
+        pdf.set_fill_color(255, 20, 147)
 
         # Default text if album art fails to load
         pdf.cell(w=30, h=30, txt='FAIL', border=1, align='C', fill=True)
@@ -79,12 +82,14 @@ for y in range(4):
 # Print title of cd
 pdf.set_xy(65,2)
 pdf.set_font('Arial','B',36)
+# TODO Grab text from command line or m3u
 pdf.cell(w=50, h=12, txt="DM001", border=0, align='C', fill=False)
 
 
 # Print subtitle of cd
 pdf.set_xy(65,14)
 pdf.set_font('Arial','B',10)
+# TODO Grab text from command line or m3u
 pdf.cell(w=50, h=5, txt="Demo Cover", border=1, align='C', fill=False)
 
 
