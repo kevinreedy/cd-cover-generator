@@ -1,4 +1,19 @@
 from pyfpdf import FPDF
+from hsaudiotag import auto
+
+# get music information
+tracks = [
+    auto.File('temp-music/01.mp3'),
+    auto.File('temp-music/02.mp3'),
+    auto.File('temp-music/03.mp3'),
+    auto.File('temp-music/04.mp3'),
+    auto.File('temp-music/05.aiff'),
+    auto.File('temp-music/06.aiff'),
+    auto.File('temp-music/07.aiff'),
+    auto.File('temp-music/08.aiff')
+]
+
+
 
 pdf=FPDF(unit='mm', format=(120,120))
 #pdf.set_margins(left,top,right=-1)
@@ -29,10 +44,10 @@ pdf.cell(w=50, h=5, txt="Tech House", border=1, align='C', fill=False)
 for y in range(8):
     pdf.set_xy(62,21 + 12*y)
     pdf.set_font('Arial','B',10)
-    pdf.cell(w=50, h=4, txt=str(y+1) + ': Awesome Song (Original Mix)', border=0, align='L', fill=False, ln='2')
+    pdf.cell(w=50, h=4, txt=str(y+1) + ': ' + str(tracks[y].title), border=0, align='L', fill=False, ln='2')
     pdf.set_font('Arial','',8)
-    pdf.cell(w=50, h=4, txt='      DJ Overzero / dirtybird', border=0, align='L', fill=False, ln='2')
-    pdf.cell(w=50, h=4, txt='      128BPM, 5B', border=0, align='L', fill=False)
+    pdf.cell(w=50, h=3, txt='      ' + str(tracks[y].artist) + ' / dirtybird', border=0, align='L', fill=False, ln='2')
+    pdf.cell(w=50, h=3, txt='      128BPM, 5B', border=0, align='L', fill=False)
 
 
 # move to right
