@@ -36,7 +36,6 @@ for i in range(8):
     # Generate artwork
     # TODO Get artwork for aiff files
     track['image'] = 'tmp/default.jpg'
-    track['image_type'] = 'jpg'
     try:
         mutagen = File(files[i])
         artwork = mutagen.tags['APIC:'].data
@@ -45,7 +44,6 @@ for i in range(8):
             img.write(artwork)
 
         track['image'] = image_name
-        track['image_type'] = what(image_name)
     except:
         print 'Could not load art for ' + str(files[i])
 
@@ -78,7 +76,7 @@ for y in range(4):
         pdf.cell(w=30, h=30, txt='FAIL', border=1, align='C', fill=True)
 
         # Print album art
-        pdf.image(name = tracks[x*4 + y]['image'], type = tracks[x*4 + y]['image_type'], x=30 * x , y=30 * y, w=30, h=30)
+        pdf.image(name = tracks[x*4 + y]['image'], type = what(tracks[x*4 + y]['image']), x=30 * x , y=30 * y, w=30, h=30)
 
 # Print title of cd
 pdf.set_xy(65,2)
