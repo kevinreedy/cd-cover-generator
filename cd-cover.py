@@ -1,7 +1,6 @@
 from pyfpdf import FPDF
 # NOTE: I have patched hsaudiotag to include label, bpm, and initial_key tags. I will post that when it is more tested
 from hsaudiotag import auto
-from mutagen import File
 from imghdr import what
 
 # TODO Make functions for everything
@@ -37,8 +36,9 @@ for i in range(8):
     # TODO Get artwork for aiff files
     track['image'] = 'tmp/default.jpg'
     try:
-        mutagen = File(files[i])
-        artwork = mutagen.tags['APIC:'].data
+        #mutagen = File(files[i])
+        #artwork = mutagen.tags['APIC:'].data
+        artwork = hs.picture
         image_name = 'tmp/img0' + str(i + 1)
         with open(image_name, 'wb') as img:
             img.write(artwork)
