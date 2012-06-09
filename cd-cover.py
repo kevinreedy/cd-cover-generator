@@ -36,8 +36,6 @@ for i in range(8):
     # TODO Get artwork for aiff files
     track['image'] = 'tmp/default.jpg'
     try:
-        #mutagen = File(files[i])
-        #artwork = mutagen.tags['APIC:'].data
         artwork = hs.picture
         image_name = 'tmp/img0' + str(i + 1)
         with open(image_name, 'wb') as img:
