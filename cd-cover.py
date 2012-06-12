@@ -4,6 +4,13 @@ from hsaudiotag import auto
 from imghdr import what
 import argparse
 
+#TODO throw error if playlist cannot load
+#TODO throw error if 0 files are found in playlist
+#TODO throw error if we cannot write output file or image cache
+#TODO add year and/or length
+#TODO add watermark 
+
+
 # verbose output
 verbose = False
 default_image = 'cache/default.jpg'
