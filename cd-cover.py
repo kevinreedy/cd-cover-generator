@@ -6,7 +6,7 @@ import argparse
 
 # verbose output
 verbose = False
-default_image = 'tmp/default.jpg'
+default_image = 'cache/default.jpg'
 
 
 def read_playlist(file_name):
@@ -29,15 +29,15 @@ def get_meta_info(file_list=None):
     # initialize tracks[] for return 
     track_list = []
 
-    # TODO for i in file_list[] or range(8)
-    for i in range(8):
+    # Only use the first 8 songs
+    for i, file_path in enumerate(file_list[:8]):
         track = dict()
 
         if verbose:
-            print 'getting meta data for ' + file_list[i]
+            print 'getting meta data for ' + file_path
 
         # Get meta data
-        hs = auto.File(file_list[i])
+        hs = auto.File(file_path)
         track['title'] = hs.title
         track['artist'] = hs.artist
         track['label'] = hs.label
@@ -48,10 +48,10 @@ def get_meta_info(file_list=None):
         track['image'] = default_image
         try:
             if verbose:
-                print 'getting artwork for ' + file_list[i]
+                print 'getting artwork for ' + file_path
 
             artwork = hs.picture
-            image_name = 'tmp/img0' + str(i + 1)
+            image_name = 'cache/' + str(i + 1)
             with open(image_name, 'wb') as img:
                 img.write(artwork)
             if verbose:
@@ -60,7 +60,7 @@ def get_meta_info(file_list=None):
             track['image'] = image_name
         except:
             if verbose:
-                print 'could not load art for ' + str(file_list[i])
+                print 'could not load art for ' + str(file_path)
 
         track_list.append(track)
 
@@ -93,7 +93,8 @@ def generate_pdf(track_list=None, output='output.pdf', short_name='CD001', long_
             pdf.set_font('Arial','B',16)
 
             # Print album art
-            pdf.image(name = track_list[x*4 + y]['image'], type = what(track_list[x*4 + y]['image']), x=30 * x , y=30 * y, w=30, h=30)
+            if len(track_list) > (x*4 + y):
+                pdf.image(name = track_list[x*4 + y]['image'], type = what(track_list[x*4 + y]['image']), x=30 * x , y=30 * y, w=30, h=30)
 
 
     if verbose:
@@ -114,7 +115,7 @@ def generate_pdf(track_list=None, output='output.pdf', short_name='CD001', long_
         print 'drawing tracklist'
 
     # Print tracklist
-    for y in range(8):
+    for y in range(len(track_list)):
         pdf.set_xy(62,23 + 12*y)
 
         # Line 1
