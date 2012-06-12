@@ -6,6 +6,7 @@ import argparse
 
 # verbose output
 verbose = False
+default_image = 'tmp/default.jpg'
 
 
 def read_playlist(file_name):
@@ -17,7 +18,8 @@ def read_playlist(file_name):
 
     for line in lines:
         if (not line.startswith('#')) and len(line.strip()) > 0:
-            #print line.rstrip()
+            if verbose:
+                print 'adding ' + line.rstrip() + ' to file_list'
             file_list.append(line.rstrip())
 
     return file_list
@@ -27,10 +29,12 @@ def get_meta_info(file_list=None):
     # initialize tracks[] for return 
     track_list = []
 
-    # Todo for i in file_list[] or range(8)
+    # TODO for i in file_list[] or range(8)
     for i in range(8):
-        print file_list[i]
         track = dict()
+
+        if verbose:
+            print 'getting meta data for ' + file_list[i]
 
         # Get meta data
         hs = auto.File(file_list[i])
@@ -41,16 +45,22 @@ def get_meta_info(file_list=None):
         track['initial_key'] = hs.initial_key
 
         # Generate artwork
-        track['image'] = 'tmp/default.jpg'
+        track['image'] = default_image
         try:
+            if verbose:
+                print 'getting artwork for ' + file_list[i]
+
             artwork = hs.picture
             image_name = 'tmp/img0' + str(i + 1)
             with open(image_name, 'wb') as img:
                 img.write(artwork)
+            if verbose:
+                print 'writing artwork to ' + image_name
 
             track['image'] = image_name
         except:
-            print 'Could not load art for ' + str(file_list[i])
+            if verbose:
+                print 'could not load art for ' + str(file_list[i])
 
         track_list.append(track)
 
@@ -58,6 +68,9 @@ def get_meta_info(file_list=None):
 
 
 def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_name="CD Cover"):
+    if verbose:
+        print 'generating pdf'
+
     # Initialize PDF
     pdf=FPDF(unit='mm', format=(120,120))
 
@@ -70,6 +83,8 @@ def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_
     # Start Page
     pdf.add_page()
 
+    if verbose:
+        print 'drawing album art'
 
     # Album art boxes
     for y in range(4):
@@ -77,26 +92,26 @@ def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_
             pdf.set_xy(30 * x ,30 * y)
             pdf.set_font('Arial','B',16)
 
-            # Set fill color to pink to be noticed
-            pdf.set_fill_color(255, 20, 147)
-
-            # Default text if album art fails to load
-            pdf.cell(w=30, h=30, txt='FAIL', border=1, align='C', fill=True)
-
             # Print album art
             pdf.image(name = track_list[x*4 + y]['image'], type = what(track_list[x*4 + y]['image']), x=30 * x , y=30 * y, w=30, h=30)
+
+
+    if verbose:
+        print 'drawing cd titles'
 
     # Print title of cd
     pdf.set_xy(65,2)
     pdf.set_font('Arial','B',36)
     pdf.cell(w=50, h=12, txt=short_name, border=0, align='C', fill=False)
 
-
     # Print subtitle of cd
     pdf.set_xy(65,14)
     pdf.set_font('Arial','B',10)
     pdf.cell(w=50, h=5, txt=long_name, border=1, align='C', fill=False)
 
+
+    if verbose:
+        print 'drawing tracklist'
 
     # Print tracklist
     for y in range(8):
@@ -122,7 +137,8 @@ def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_
             line3 = line3 + ' [' + track_list[y]['label'] + ']'
         pdf.cell(w=50, h=3, txt=line3, border=0, align='L', fill=False)
 
-
+    if verbose:
+        print 'writing pdf file to ' + output
     # Write pdf file
     pdf.output(output,'F')
 
@@ -130,7 +146,7 @@ def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_
 def main():
     # Parse Arguments
     parser = argparse.ArgumentParser(description='Generate a CD Cover from an M3U Playlist')
-    parser.add_argument("-v", "--verbose", help="output logging information", action="store_true")
+    parser.add_argument('-v', '--verbose', help='output logging information', action='store_true')
     parser.add_argument('playlist', help='m3u playlist to read')
     parser.add_argument('short_name', help='short name of the CD')
     parser.add_argument('long_name', help='long name of the CD')
@@ -138,6 +154,7 @@ def main():
     args = parser.parse_args()
 
     if args.verbose:
+        global verbose
         verbose = True
 
     files = read_playlist(args.playlist)
