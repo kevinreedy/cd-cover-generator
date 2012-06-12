@@ -67,7 +67,7 @@ def get_meta_info(file_list=None):
     return track_list
 
 
-def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_name="CD Cover"):
+def generate_pdf(track_list=None, output='output.pdf', short_name='CD001', long_name='CD Cover'):
     if verbose:
         print 'generating pdf'
 
