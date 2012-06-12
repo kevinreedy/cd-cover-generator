@@ -2,7 +2,10 @@ from pyfpdf import FPDF
 # NOTE: I have patched hsaudiotag to include label, bpm, and initial_key tags. I will post that when it is more tested
 from hsaudiotag import auto
 from imghdr import what
+import argparse
 
+# verbose output
+verbose = False
 
 def get_meta_info(file_list=None):
     # initialize tracks[] for return 
@@ -121,13 +124,21 @@ def read_playlist(file_name):
     return file_list
     
 def main():
-    # Open file and read lines
-    # TODO Parameters!
-    playlist = 'art-test.m3u'
+    # Parse Arguments
+    parser = argparse.ArgumentParser(description='Generate a CD Cover from an M3U Playlist')
+    parser.add_argument("-v", "--verbose", help="output logging information", action="store_true")
+    parser.add_argument('playlist', help='m3u playlist to read')
+    parser.add_argument('short_name', help='short name of the CD')
+    parser.add_argument('long_name', help='long name of the CD')
+    parser.add_argument('output', help='output filename of PDF')
+    args = parser.parse_args()
 
-    files = read_playlist(playlist)
+    if args.verbose:
+        verbose = True
+
+    files = read_playlist(args.playlist)
     tracks = get_meta_info(files)
-    generate_pdf(tracks, 'output2.pdf', 'DM002', 'Demo Rock')
+    generate_pdf(tracks, args.output, args.short_name, args.long_name)
 
 if __name__ == '__main__':
     main()
