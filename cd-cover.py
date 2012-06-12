@@ -7,6 +7,22 @@ import argparse
 # verbose output
 verbose = False
 
+
+def read_playlist(file_name):
+    f = open(file_name, 'U')
+    lines = f.readlines()
+
+    # Initialize List
+    file_list = []
+
+    for line in lines:
+        if (not line.startswith('#')) and len(line.strip()) > 0:
+            #print line.rstrip()
+            file_list.append(line.rstrip())
+
+    return file_list
+
+    
 def get_meta_info(file_list=None):
     # initialize tracks[] for return 
     track_list = []
@@ -39,6 +55,7 @@ def get_meta_info(file_list=None):
         track_list.append(track)
 
     return track_list
+
 
 def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_name="CD Cover"):
     # Initialize PDF
@@ -109,20 +126,7 @@ def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_
     # Write pdf file
     pdf.output(output,'F')
 
-def read_playlist(file_name):
-    f = open(file_name, 'U')
-    lines = f.readlines()
 
-    # Initialize List
-    file_list = []
-
-    for line in lines:
-        if (not line.startswith('#')) and len(line.strip()) > 0:
-            #print line.rstrip()
-            file_list.append(line.rstrip())
-
-    return file_list
-    
 def main():
     # Parse Arguments
     parser = argparse.ArgumentParser(description='Generate a CD Cover from an M3U Playlist')
@@ -140,8 +144,7 @@ def main():
     tracks = get_meta_info(files)
     generate_pdf(tracks, args.output, args.short_name, args.long_name)
 
+
 if __name__ == '__main__':
     main()
-
-
 
