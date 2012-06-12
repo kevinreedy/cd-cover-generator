@@ -6,6 +6,7 @@ import argparse
 
 #TODO throw error if playlist cannot load
 #TODO throw error if 0 files are found in playlist
+#TODO throw error if we cannot load a file from playlist
 #TODO throw error if we cannot write output file or image cache
 #TODO add year and/or length
 #TODO add watermark 
