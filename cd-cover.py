@@ -36,7 +36,7 @@ def get_meta_info(file_list=None):
 
     return track_list
 
-def generate_pdf(track_list=None, output='output.pdf'):
+def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_name="CD Cover"):
     # Initialize PDF
     pdf=FPDF(unit='mm', format=(120,120))
 
@@ -68,15 +68,13 @@ def generate_pdf(track_list=None, output='output.pdf'):
     # Print title of cd
     pdf.set_xy(65,2)
     pdf.set_font('Arial','B',36)
-    # TODO Grab text from command line or m3u
-    pdf.cell(w=50, h=12, txt="DM001", border=0, align='C', fill=False)
+    pdf.cell(w=50, h=12, txt=short_name, border=0, align='C', fill=False)
 
 
     # Print subtitle of cd
     pdf.set_xy(65,14)
     pdf.set_font('Arial','B',10)
-    # TODO Grab text from command line or m3u
-    pdf.cell(w=50, h=5, txt="Demo Cover", border=1, align='C', fill=False)
+    pdf.cell(w=50, h=5, txt=long_name, border=1, align='C', fill=False)
 
 
     # Print tracklist
@@ -121,7 +119,7 @@ def main():
     ]
 
     tracks = get_meta_info(files)
-    generate_pdf(tracks, 'output2.pdf')
+    generate_pdf(tracks, 'output2.pdf', 'DM002', 'Demo Rock')
 
 if __name__ == '__main__':
     main()
