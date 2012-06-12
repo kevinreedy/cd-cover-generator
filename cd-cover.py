@@ -15,7 +15,7 @@ files = [
     'temp-music/05.mp3',
     'temp-music/06.mp3',
     'temp-music/07.mp3',
-    'temp-music/08.mp3'
+    'temp-music/08.aiff'
 ]
 
 
