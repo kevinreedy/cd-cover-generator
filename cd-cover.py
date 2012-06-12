@@ -106,26 +106,26 @@ def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_
     # Write pdf file
     pdf.output(output,'F')
 
-def main():
-    playlist = 'art-test.m3u'
-    f = open(playlist, 'U')
+def read_playlist(file_name):
+    f = open(file_name, 'U')
     lines = f.readlines()
 
-    files = []
+    # Initialize List
+    file_list = []
 
-    next = False
-    # first line is EXTM3U
-    for line in lines[1:]:
-        if next is True:
-            print line.rstrip()
-            files.append(line.rstrip())
-            next = False
+    for line in lines:
+        if (not line.startswith('#')) and len(line.strip()) > 0:
+            #print line.rstrip()
+            file_list.append(line.rstrip())
 
-        if line.startswith('#EXTINF'):
-            next = True
+    return file_list
+    
+def main():
+    # Open file and read lines
+    # TODO Parameters!
+    playlist = 'art-test.m3u'
 
-
-
+    files = read_playlist(playlist)
     tracks = get_meta_info(files)
     generate_pdf(tracks, 'output2.pdf', 'DM002', 'Demo Rock')
 
