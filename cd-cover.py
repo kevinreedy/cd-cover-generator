@@ -10,6 +10,7 @@ def get_meta_info(file_list=None):
 
     # Todo for i in file_list[] or range(8)
     for i in range(8):
+        print file_list[i]
         track = dict()
 
         # Get meta data
@@ -106,17 +107,24 @@ def generate_pdf(track_list=None, output='output.pdf', short_name="CD001", long_
     pdf.output(output,'F')
 
 def main():
-    # TODO Get this loaded from m3u or something
-    files = [
-        'temp-music/01.mp3',
-        'temp-music/02.mp3',
-        'temp-music/03.mp3',
-        'temp-music/04.mp3',
-        'temp-music/05.mp3',
-        'temp-music/06.mp3',
-        'temp-music/07.mp3',
-        'temp-music/08.aiff'
-    ]
+    playlist = 'art-test.m3u'
+    f = open(playlist, 'U')
+    lines = f.readlines()
+
+    files = []
+
+    next = False
+    # first line is EXTM3U
+    for line in lines[1:]:
+        if next is True:
+            print line.rstrip()
+            files.append(line.rstrip())
+            next = False
+
+        if line.startswith('#EXTINF'):
+            next = True
+
+
 
     tracks = get_meta_info(files)
     generate_pdf(tracks, 'output2.pdf', 'DM002', 'Demo Rock')
