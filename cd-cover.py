@@ -17,6 +17,11 @@ verbose = False
 default_image = 'cache/default.jpg'
 
 
+def print(p):
+    if verbose:
+        print p
+
+
 def read_playlist(file_name):
     f = open(file_name, 'U')
     lines = f.readlines()
@@ -26,8 +31,7 @@ def read_playlist(file_name):
 
     for line in lines:
         if (not line.startswith('#')) and len(line.strip()) > 0:
-            if verbose:
-                print 'adding ' + line.rstrip() + ' to file_list'
+            print 'adding ' + line.rstrip() + ' to file_list'
             file_list.append(line.rstrip())
 
     return file_list
@@ -41,8 +45,7 @@ def get_meta_info(file_list=None):
     for i, file_path in enumerate(file_list[:8]):
         track = dict()
 
-        if verbose:
-            print 'getting meta data for ' + file_path
+        print 'getting meta data for ' + file_path
 
         # Get meta data
         hs = auto.File(file_path)
@@ -55,20 +58,17 @@ def get_meta_info(file_list=None):
         # Generate artwork
         track['image'] = default_image
         try:
-            if verbose:
-                print 'getting artwork for ' + file_path
+            print 'getting artwork for ' + file_path
 
             artwork = hs.picture
             image_name = 'cache/' + str(i + 1)
             with open(image_name, 'wb') as img:
                 img.write(artwork)
-            if verbose:
-                print 'writing artwork to ' + image_name
+            print 'writing artwork to ' + image_name
 
             track['image'] = image_name
         except:
-            if verbose:
-                print 'could not load art for ' + str(file_path)
+            print 'could not load art for ' + str(file_path)
 
         track_list.append(track)
 
@@ -76,8 +76,7 @@ def get_meta_info(file_list=None):
 
 
 def generate_pdf(track_list=None, output='output.pdf', short_name='CD001', long_name='CD Cover'):
-    if verbose:
-        print 'generating pdf'
+    print 'generating pdf'
 
     # Initialize PDF
     pdf=FPDF(unit='mm', format=(120,120))
@@ -91,8 +90,7 @@ def generate_pdf(track_list=None, output='output.pdf', short_name='CD001', long_
     # Start Page
     pdf.add_page()
 
-    if verbose:
-        print 'drawing album art'
+    print 'drawing album art'
 
     # Album art boxes
     for y in range(4):
@@ -105,8 +103,7 @@ def generate_pdf(track_list=None, output='output.pdf', short_name='CD001', long_
                 pdf.image(name = track_list[x*4 + y]['image'], type = what(track_list[x*4 + y]['image']), x=30 * x , y=30 * y, w=30, h=30)
 
 
-    if verbose:
-        print 'drawing cd titles'
+    print 'drawing cd titles'
 
     # Print title of cd
     pdf.set_xy(65,2)
@@ -119,8 +116,7 @@ def generate_pdf(track_list=None, output='output.pdf', short_name='CD001', long_
     pdf.cell(w=50, h=5, txt=long_name, border=1, align='C', fill=False)
 
 
-    if verbose:
-        print 'drawing tracklist'
+    print 'drawing tracklist'
 
     # Print tracklist
     for y in range(len(track_list)):
@@ -146,8 +142,8 @@ def generate_pdf(track_list=None, output='output.pdf', short_name='CD001', long_
             line3 = line3 + ' [' + track_list[y]['label'] + ']'
         pdf.cell(w=50, h=3, txt=line3, border=0, align='L', fill=False)
 
-    if verbose:
-        print 'writing pdf file to ' + output
+    print 'writing pdf file to ' + output
+
     # Write pdf file
     pdf.output(output,'F')
 
